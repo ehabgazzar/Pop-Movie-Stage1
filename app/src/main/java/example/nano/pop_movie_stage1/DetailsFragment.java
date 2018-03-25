@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static example.nano.pop_movie_stage1.utilities.Urls.POSTER;
 
 
@@ -29,13 +32,15 @@ public class DetailsFragment extends Fragment {
 
     private MovieItem mMovie;
 
+    @BindView(R.id.detail_title) TextView mTitleView;
+    @BindView(R.id.detail_overview) TextView mOverviewView;
 
-    private ImageView mImageView;
-    private ScrollView mDetailLayout;
-    private TextView mTitleView;
-    private TextView mOverviewView;
-    private TextView mDateView;
-    private TextView mVoteAverageView;
+    @BindView(R.id.detail_date) TextView mDateView;
+    @BindView(R.id.detail_vote_average) TextView mVoteAverageView;
+    @BindView(R.id.detail_image) ImageView mImageView;
+    @BindView(R.id.detail_layout) ScrollView mDetailLayout;
+
+
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -52,6 +57,7 @@ public class DetailsFragment extends Fragment {
         }
 
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
+        ButterKnife.bind(rootView);
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.detail_layout);
 
         if (mMovie != null) {
