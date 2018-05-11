@@ -1,8 +1,7 @@
-package example.nano.pop_movie_stage1;
+package example.nano.pop_movie_stage1.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 /**
  * Created by ehab- on 4/16/2017.

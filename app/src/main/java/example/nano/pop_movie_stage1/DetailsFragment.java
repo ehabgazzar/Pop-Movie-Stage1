@@ -1,9 +1,7 @@
 package example.nano.pop_movie_stage1;
 
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import example.nano.pop_movie_stage1.models.MovieItem;
 
 import static example.nano.pop_movie_stage1.utilities.Urls.POSTER;
 
@@ -75,7 +73,7 @@ public class DetailsFragment extends Fragment {
         if (mMovie != null) {
             String image_url = POSTER+"342"+mMovie.getPosterW() ;
 
-            Picasso.with(getContext()).load(image_url).into(mImageView);
+            Picasso.get().load(image_url).into(mImageView);
 
             mTitleView.setText(mMovie.getTitle());
             mOverviewView.setText(mMovie.getOverview());

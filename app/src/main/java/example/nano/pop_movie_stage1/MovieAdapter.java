@@ -1,6 +1,8 @@
 package example.nano.pop_movie_stage1;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,26 +11,30 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
+
+import example.nano.pop_movie_stage1.models.MovieItem;
 
 /**
  * Created by ehab- on 4/16/2017.
  */
 
-public class MovieAdapter extends BaseAdapter {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
 
     private final Context moiveContext;
     private final LayoutInflater movieInflater;
-
+    private  ClickListener listener;
     private final MovieItem movie = new MovieItem();
 
     private List<MovieItem> movieObjects;
 
-    public MovieAdapter(Context context, List<MovieItem> objects) {
+    public MovieAdapter(Context context, List<MovieItem> objects, ClickListener listener) {
         moiveContext = context;
-        movieInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        movieInflater = LayoutInflater.from(context);
         movieObjects = objects;
+        this.listener=listener;
     }
 
     public Context getContext() {
@@ -39,13 +45,7 @@ public class MovieAdapter extends BaseAdapter {
             movieObjects.add(object);
       }
 
-    public void setData(List<MovieItem> data) {
-        clear();
-        for (MovieItem movie : data) {
-            add(movie);
-        }
-        notifyDataSetChanged();
-    }
+
 
     public void clear() {
 
@@ -53,17 +53,25 @@ public class MovieAdapter extends BaseAdapter {
 
         notifyDataSetChanged();
     }
+
+
+
+    @NonNull
     @Override
-    public int getCount() {
-        return movieObjects.size();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = movieInflater.inflate(R.layout.movie_item, parent, false);
+        final MovieAdapter.ViewHolder viewHolder = new MovieAdapter.ViewHolder(view, listener);
+
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return movieObjects.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final MovieItem movie = (MovieItem) movieObjects.get(position);
+
+        String image_url = "http://image.tmdb.org/t/p/w185" + movie.getPoster();
+          Picasso.get().load(image_url).fit().into(holder.imageView);
     }
-
-
 
     @Override
     public long getItemId(int position) {
@@ -71,33 +79,28 @@ public class MovieAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view = convertView;
-        ViewHolder viewHolder;
-
-        if (view == null) {
-            view = movieInflater.inflate(R.layout.movie_item, parent, false);
-            viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
-        }
-
-        final MovieItem movie = (MovieItem) getItem(position);
-
-        String image_url = "http://image.tmdb.org/t/p/w185" + movie.getPoster();
-        viewHolder = (ViewHolder) view.getTag();
-        Picasso.with(getContext()).load(image_url).into(viewHolder.imageView);
-        return view;
+    public int getItemCount() {
+        return movieObjects.size();
     }
 
 
-    public static class ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private WeakReference<ClickListener> listenerRef;
         public final ImageView imageView;
 
 
-        public ViewHolder(View view) {
-            imageView = (ImageView) view.findViewById(R.id.grid_item_image);
+        public ViewHolder(View view,ClickListener listener) {
+            super(view);
+            listenerRef = new WeakReference<>(listener);
 
+            imageView = (ImageView) view.findViewById(R.id.grid_item_image);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listenerRef.get().onPositionClicked(getAdapterPosition());
         }
     }
 }

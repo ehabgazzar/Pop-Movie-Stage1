@@ -1,7 +1,6 @@
 package example.nano.pop_movie_stage1.utilities;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import example.nano.pop_movie_stage1.MovieItem;
+import example.nano.pop_movie_stage1.models.MovieItem;
 
 /**
  * Created by ehab- on 4/15/2017.

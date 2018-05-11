@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import example.nano.pop_movie_stage1.models.MovieItem;
+
 public class MainActivity extends AppCompatActivity implements MainFragment.Callback {
 
     @Override
