@@ -9,29 +9,22 @@ import android.os.Parcelable;
 
 public class MovieItem implements Parcelable {
    private String title;
-    private String PosterW;
-    private String poster;
+    private String backdrop_path;
+    private String poster_path;
     private String overview;
-    private String rate;
+    private String vote_average;
+    private String release_date;
 
-    public String getDate() {
-        return date;
-    }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    private String date;
 
 
     protected MovieItem(Parcel in) {
         title = in.readString();
-        poster = in.readString();
-        PosterW = in.readString();
+        poster_path = in.readString();
+        backdrop_path = in.readString();
         overview = in.readString();
-        rate = in.readString();
-        date = in.readString();
+        vote_average = in.readString();
+        release_date = in.readString();
     }
 
     public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
@@ -46,12 +39,12 @@ public class MovieItem implements Parcelable {
         }
     };
 
-    public String getRate() {
-        return rate;
+    public String getVote_average() {
+        return vote_average;
     }
 
-    public void setRate(String rate) {
-        this.rate = rate;
+    public void setVote_average(String vote_average) {
+        this.vote_average = vote_average;
     }
 public String getTitle() {
         return title;
@@ -61,21 +54,21 @@ public String getTitle() {
         this.title = title;
     }
 
-    public String getPosterW() {
-        return PosterW;
+    public String getBackdrop_path() {
+        return backdrop_path;
     }
 
-    public void setPosterW(String url) {
+    public void setBackdrop_path(String url) {
 
-        this.PosterW = url;
+        this.backdrop_path = url;
     }
 
-    public String getPoster() {
-        return poster;
+    public String getPoster_path() {
+        return poster_path;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setPoster_path(String poster_path) {
+        this.poster_path = poster_path;
     }
 
     public String getOverview() {
@@ -86,6 +79,13 @@ public String getTitle() {
         this.overview = overview;
     }
 
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
 
         public MovieItem()
         {
@@ -100,10 +100,10 @@ public String getTitle() {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(poster);
-        dest.writeString(PosterW);
+        dest.writeString(poster_path);
+        dest.writeString(backdrop_path);
         dest.writeString(overview);
-        dest.writeString(rate);
-        dest.writeString(date);
+        dest.writeString(vote_average);
+        dest.writeString(release_date);
     }
 }

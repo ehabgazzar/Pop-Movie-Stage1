@@ -39,13 +39,13 @@ public class JsonParser {
             for (int i = 0; i <resultsArr.length(); i++) {
                 JSONObject item = resultsArr.getJSONObject(i);
                 MovieItem newItem = new MovieItem();
-                newItem.setPoster(item.getString("poster_path"));
+                newItem.setPoster_path(item.getString("poster_path"));
                 newItem.setOverview(item.getString("overview"));
-                newItem.setRate(item.getString("vote_average"));
+                newItem.setVote_average(item.getString("vote_average"));
               //  Log.d("From Json release date",item.getString("release_date"));
-                newItem.setPosterW(item.getString("backdrop_path"));
+                newItem.setBackdrop_path(item.getString("backdrop_path"));
                 newItem.setTitle(item.getString("original_title"));
-                newItem.setDate(item.getString("release_date"));
+                newItem.setRelease_date(item.getString("release_date"));
 
 
                 itemList.add(newItem);

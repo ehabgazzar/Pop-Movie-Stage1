@@ -71,16 +71,16 @@ public class DetailsFragment extends Fragment {
         mDateView = (TextView) rootView.findViewById(R.id.detail_date);
         mVoteAverageView = (TextView) rootView.findViewById(R.id.detail_vote_average);
         if (mMovie != null) {
-            String image_url = POSTER+"342"+mMovie.getPosterW() ;
+            String image_url = POSTER+"342"+mMovie.getBackdrop_path() ;
 
             Picasso.get().load(image_url).into(mImageView);
 
             mTitleView.setText(mMovie.getTitle());
             mOverviewView.setText(mMovie.getOverview());
 
-            Log.d("Relase Date",mMovie.getDate());
-            mDateView.setText(mMovie.getDate());
-            mVoteAverageView.setText(mMovie.getRate());
+            Log.d("Relase Date",mMovie.getRelease_date());
+            mDateView.setText(mMovie.getRelease_date());
+            mVoteAverageView.setText(mMovie.getVote_average());
         }
 
         return rootView;

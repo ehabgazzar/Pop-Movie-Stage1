@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -69,7 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final MovieItem movie = (MovieItem) movieObjects.get(position);
 
-        String image_url = "http://image.tmdb.org/t/p/w185" + movie.getPoster();
+        String image_url = "http://image.tmdb.org/t/p/w185" + movie.getPoster_path();
           Picasso.get().load(image_url).fit().into(holder.imageView);
     }
 

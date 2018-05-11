@@ -26,6 +26,12 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +50,7 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
     ArrayList<MovieItem> allItems;
     MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
-
+    Gson gson;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -103,7 +109,7 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
          recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         allItems=new ArrayList<>();
         mContext=this.getActivity();
-
+        gson=new Gson();
         return view ;
     }
 
@@ -119,7 +125,17 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
             @Override
             public void onResponse(String response) {
                 Log.e("Request Response", response);
-                allItems= JsonParser.getInstnace(mContext).fetchMovies(response);
+                JSONObject jsonObject= null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                    JSONArray resultsArr = jsonObject.getJSONArray("results");
+
+
+
+
+                //  allItems= JsonParser.getInstnace(mContext).fetchMovies(response);
+                allItems= gson.fromJson(String.valueOf(resultsArr),new TypeToken<List<MovieItem>>(){}.getType());
                 movieAdapter = new MovieAdapter(getActivity(),allItems , new ClickListener() {
                     @Override
                     public void onPositionClicked(int position) {
@@ -138,7 +154,9 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
 //                recyclerView.addItemDecoration(dividerItemDecoration);
 
                 recyclerView.setAdapter(movieAdapter);
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {
