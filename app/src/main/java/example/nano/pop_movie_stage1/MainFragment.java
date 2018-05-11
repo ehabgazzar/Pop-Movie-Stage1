@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -37,9 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import example.nano.pop_movie_stage1.models.MovieItem;
-import example.nano.pop_movie_stage1.utilities.JsonParser;
 import example.nano.pop_movie_stage1.utilities.NetHelper;
 import example.nano.pop_movie_stage1.utilities.Urls;
+import example.nano.pop_movie_stage1.utilities.Utility;
 
 
 public class MainFragment extends Fragment  implements AdapterView.OnItemClickListener{
@@ -66,6 +64,7 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
         inflater.inflate(R.menu.menu_fragment_main, menu);
         MenuItem action_sort_by_popularity = menu.findItem(R.id.action_sort_by_popularity);
         action_sort_by_popularity.setChecked(true);
@@ -99,13 +98,48 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
 
             default:
                 return super.onOptionsItemSelected(item);
-        }  }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mNetHelper= NetHelper.getInstance(this.getActivity());
         View view=inflater.inflate(R.layout.fragment_main, container, false);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                getActivity().findViewById(R.id.navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        int id = item.getItemId();
+                        switch (id) {
+                            case R.id.action_sort_by_popularity:
+                                if (item.isChecked()) {
+                                    item.setChecked(false);
+                                } else {
+                                    item.setChecked(true);
+                                }
+                                movieSortBy = Urls.SORT_BY_POPULAR;
+                                updateMovies(movieSortBy);
+                                return true;
+                            case R.id.action_sort_by_rating:
+                                if (item.isChecked()) {
+                                    item.setChecked(false);
+                                } else {
+                                    item.setChecked(true);
+                                }
+                                movieSortBy = Urls.SORT_BY_TOP_RATED;
+                                updateMovies(movieSortBy);
+                                return true;
+
+
+
+                        }
+                        return true;
+                    }
+                });
          recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         allItems=new ArrayList<>();
         mContext=this.getActivity();
@@ -134,6 +168,7 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
 
 
 
+                    allItems.clear();
                 //  allItems= JsonParser.getInstnace(mContext).fetchMovies(response);
                 allItems= gson.fromJson(String.valueOf(resultsArr),new TypeToken<List<MovieItem>>(){}.getType());
                 movieAdapter = new MovieAdapter(getActivity(),allItems , new ClickListener() {
@@ -143,9 +178,10 @@ public class MainFragment extends Fragment  implements AdapterView.OnItemClickLi
                         ((Callback) getActivity()).onItemSelected(movie);
                     }
                 });
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
+                    int mNoOfColumns = Utility.calculateNoOfColumns(getContext());
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), mNoOfColumns);
                 recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+//                recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 

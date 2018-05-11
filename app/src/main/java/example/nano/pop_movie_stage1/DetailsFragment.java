@@ -2,6 +2,7 @@ package example.nano.pop_movie_stage1;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,13 +30,17 @@ public class DetailsFragment extends Fragment {
     static final String DETAIL_MOVIE = "DETAIL_MOVIE";
 
     private MovieItem mMovie;
-
+    @Nullable
     @BindView(R.id.detail_title) TextView mTitleView;
+    @Nullable
     @BindView(R.id.detail_overview) TextView mOverviewView;
-
+    @Nullable
     @BindView(R.id.detail_date) TextView mDateView;
+    @Nullable
     @BindView(R.id.detail_vote_average) TextView mVoteAverageView;
+    @Nullable
     @BindView(R.id.detail_image) ImageView mImageView;
+    @Nullable
     @BindView(R.id.detail_layout) ScrollView mDetailLayout;
 
 
@@ -55,8 +60,8 @@ public class DetailsFragment extends Fragment {
         }
 
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-        ButterKnife.bind(rootView);
-        mDetailLayout = (ScrollView) rootView.findViewById(R.id.detail_layout);
+        ButterKnife.bind(this,rootView);
+
 
         if (mMovie != null) {
             mDetailLayout.setVisibility(View.VISIBLE);

@@ -3,10 +3,8 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:clipToPadding="false"
     android:scrollbars="vertical"
-    android:numColumns="auto_fit"
     android:verticalSpacing="@dimen/grid_item_movie_spacing"
     android:horizontalSpacing="@dimen/grid_item_movie_spacing"
-    android:padding="@dimen/grid_item_movie_spacing"
-    />
+    android:padding="@dimen/grid_item_movie_spacing" />

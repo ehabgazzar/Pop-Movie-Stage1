@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView
-                (R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         Fragment fragment;
         fragment = new MainFragment();
         FragmentTransaction fragmentTransaction =
